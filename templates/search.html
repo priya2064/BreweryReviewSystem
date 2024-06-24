@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brewery Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        select {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Search Breweries</h2>
+    <form method="get" action="{% url 'search' %}">
+        <input type="text" name="query" placeholder="Enter search term">
+        <select name="search_by">
+            <option value="by_city">City</option>
+            <option value="by_name">Name</option>
+            <option value="by_type">Type</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {% for brewery in breweries %}
+            <li>
+                <a href="{% url 'brewery_detail' brewery.id %}">{{ brewery.name }}</a><br>
+                Address: {{ brewery.street }}, {{ brewery.city }}, {{ brewery.state }}<br>
+                Phone: {{ brewery.phone }}<br>
+                Website: <a href="{{ brewery.website_url }}">{{ brewery.website_url }}</a><br>
+                Rating: {{ brewery.rating }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+

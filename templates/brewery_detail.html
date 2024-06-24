@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ brewery.name }}</title>
+</head>
+<body>
+    <h2>{{ brewery.name }}</h2>
+    <p>Address: {{ brewery.address }}</p>
+    <p>Phone: {{ brewery.phone_number }}</p>
+    <p>Website: <a href="{{ brewery.website_url }}">{{ brewery.website_url }}</a></p>
+    <p>Rating: {{ brewery.rating }}</p>
+
+    <h3>Reviews</h3>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <p>Rating: {{ review.rating }}</p>
+                <p>{{ review.description }}</p>
+                <p>By: {{ review.user.username }} on {{ review.created_at }}</p>
+            </li>
+        {% empty %}
+            <li>No reviews yet.</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+    <h3>Add a Review</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Review</button>
+    </form>
+    {% else %}
+    <p>Please <a href="{% url 'login' %}">login</a> to add a review.</p>
+    {% endif %}
+</body>
+</html>
