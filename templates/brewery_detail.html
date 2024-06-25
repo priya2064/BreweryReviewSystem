@@ -7,7 +7,7 @@
 <body>
     <h2>{{ brewery.name }}</h2>
     <p>Address: {{ brewery.address }}</p>
-    <p>Phone: {{ brewery.phone_number }}</p>
+    <p>Phone: {{ brewery.phone }}</p>
     <p>Website: <a href="{{ brewery.website_url }}">{{ brewery.website_url }}</a></p>
     <p>Rating: {{ brewery.rating }}</p>
 
@@ -19,8 +19,6 @@
                 <p>{{ review.description }}</p>
                 <p>By: {{ review.user.username }} on {{ review.created_at }}</p>
             </li>
-        {% empty %}
-            <li>No reviews yet.</li>
         {% endfor %}
     </ul>
 
@@ -28,7 +26,16 @@
     <h3>Add a Review</h3>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="rating">Rating:</label>
+        <select name="rating" id="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+        <label for="description">Review:</label><br>
+        <textarea name="description" id="description" rows="4" cols="50"></textarea><br>
         <button type="submit">Submit Review</button>
     </form>
     {% else %}
@@ -36,3 +43,4 @@
     {% endif %}
 </body>
 </html>
+

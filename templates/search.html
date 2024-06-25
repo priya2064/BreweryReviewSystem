@@ -63,7 +63,7 @@
         }
 
         li {
-            background-color: #fff;
+            background-color: #eeee;
             padding: 20px;
             margin-bottom: 10px;
             border: 1px solid #dee2e6;
@@ -92,6 +92,7 @@
         </select>
         <button type="submit">Search</button>
     </form>
+
     <ul>
         {% for brewery in breweries %}
             <li>
@@ -100,9 +101,27 @@
                 Phone: {{ brewery.phone }}<br>
                 Website: <a href="{{ brewery.website_url }}">{{ brewery.website_url }}</a><br>
                 Rating: {{ brewery.rating }}
+            <h3>Add a Review</h3>
+        <form method="POST">
+                    {% csrf_token %}
+
+        <label for="rating">Rating:</label>
+        <select name="rating" id="rating">
+            <option value="rating">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+        <label for="description">Review:</label><br>
+        <textarea name="description" id="description" rows="4" cols="50"></textarea><br>
+        <button type="submit">Submit Review</button>
+            </form>
             </li>
         {% endfor %}
     </ul>
+
 </body>
 </html>
 

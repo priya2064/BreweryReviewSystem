@@ -52,40 +52,40 @@ def search_view(request):
     return render(request, 'search.html', {'breweries': breweries})
 
 
-# def brewery_detail(request, brewery_id):
-#     brewery = get_object_or_404(Brewery, id=brewery_id)
-#     reviews = Review.objects.filter(brewery=brewery)
-#     if request.method == 'POST':
-#         rating = request.POST.get('rating')
-#         description = request.POST.get('description')
-#         review = Review(user=request.user, brewery=brewery, rating=rating, description=description)
-#         review.save()
-#         # Update brewery rating
-#         average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
-#         brewery.rating = average_rating
-#         brewery.save()
-#     return render(request, 'brewery_detail.html', {'brewery': brewery, 'reviews': reviews})
-
 def brewery_detail(request, brewery_id):
-    try:
-        brewery = get_object_or_404(BrewPub, id=brewery_id)
-        reviews = Review.objects.filter(brewery=brewery)
+    brewery = get_object_or_404(Brewery, id=brewery_id)
+    reviews = Review.objects.filter(brewery=brewery)
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        description = request.POST.get('description')
+        review = Review(user=request.user, brewery=brewery, rating=rating, description=description)
+        review.save()
+        # Update brewery rating
+        average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+        brewery.rating = average_rating
+        brewery.save()
+    return render(request, 'brewery_detail.html', {'brewery': brewery, 'reviews': reviews})
 
-        # Handle POST request for adding reviews
-        if request.method == 'POST':
-            rating = request.POST.get('rating')
-            description = request.POST.get('description')
-            review = Review(user=request.user, brewery=brewery, rating=rating, description=description)
-            review.save()
-
-            # Update brewery rating if needed
-            average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
-            brewery.rating = average_rating
-            brewery.save()
-
-        return render(request, 'brewery_detail.html', {'brewery': brewery, 'reviews': reviews})
-
-    except BrewPub.DoesNotExist:
-        # Handle case where BrewPub with given UUID does not exist
-        return HttpResponse("BrewPub not found. Please check the UUID or go back to search.")
+# def brewery_detail(request, brewery_id):
+#     try:
+#         brewery = get_object_or_404(BrewPub, id=brewery_id)
+#         reviews = Review.objects.filter(brewery=brewery)
+#
+#         # Handle POST request for adding reviews
+#         if request.method == 'POST':
+#             rating = request.POST.get('rating')
+#             description = request.POST.get('description')
+#             review = Review(user=request.user, brewery=brewery, rating=rating, description=description)
+#             review.save()
+#
+#             # Update brewery rating if needed
+#             average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+#             brewery.rating = average_rating
+#             brewery.save()
+#
+#         return render(request, 'brewery_detail.html', {'brewery': brewery, 'reviews': reviews})
+#
+#     except BrewPub.DoesNotExist:
+#         # Handle case where BrewPub with given UUID does not exist
+#         return HttpResponse("BrewPub not found. Please check the UUID or go back to search.")
 
